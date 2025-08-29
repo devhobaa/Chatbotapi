@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>Demo Chat</title>
+</head>
+<body>
+  <div id="chat"></div>
+  <input id="message" placeholder="اكتب هنا..." />
+  <button onclick="send()">أرسل</button>
+  <script>
+    async function send() {
+      const msg = document.getElementById("message").value;
+      const res = await fetch("/.netlify/functions/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: msg })
+      });
+      const data = await res.json();
+      document.getElementById("chat").innerHTML += `<p>${data.reply}</p>`;
+    }
+  </script>
+</body>
+</html>
